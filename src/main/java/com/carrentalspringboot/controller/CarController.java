@@ -1,8 +1,10 @@
 package com.carrentalspringboot.controller;
 
+import com.carrentalspringboot.dto.CarResponse;
+import com.carrentalspringboot.mapper.CarMapper;
 import com.carrentalspringboot.model.Car;
 import com.carrentalspringboot.service.CarService;
-import lombok.SneakyThrows;
+import lombok.Builder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+//TODO implement throw exceptions
 @RestController
 @RequestMapping("api/cars")
 @CrossOrigin("http://localhost:4200")
@@ -18,17 +21,12 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
+    private final CarMapper carMapper;
 
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
-
-// TODO create an exception class
-    @GetMapping(value = "/cars", produces = "application/json")
-    private ResponseEntity<List<Car>> getCars() {
-
-        List<Car> cars = carService.getCars();
-        return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
+    @GetMapping(value = "/all", produces = "application/json")
+    private ResponseEntity<List<CarResponse>> getCars() {
+        List<CarResponse> carResponse = carMapper.fromEntityToResponse(carService.getCars());
+        return new ResponseEntity<>(carResponse, HttpStatus.OK);
 
     }
 
@@ -40,8 +38,9 @@ public class CarController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/saveCar", produces = "application/json")
-    public ResponseEntity<?> saveCar(@RequestBody Car car) {
+    @PostMapping(value = "/save", produces = "application/json")
+    public ResponseEntity<Car> saveCar(@RequestBody CarResponse carResponse) {
+        Car car = carMapper.fromResponseToEntity(carResponse);
         carService.saveCar(car);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
@@ -52,7 +51,7 @@ public class CarController {
         return new ResponseEntity<List<Car>>(availableCars, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/editCar", produces = "application/json")
+    @PutMapping(value = "/edit", produces = "application/json")
     public ResponseEntity<?> editCar(@RequestBody Car car) {
         carService.updateCar(car);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);

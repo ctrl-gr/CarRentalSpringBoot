@@ -1,7 +1,10 @@
 package com.carrentalspringboot.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "car")
 public class Car {
@@ -33,74 +36,5 @@ public class Car {
 
     }
 
-    public int getId() {
-
-        return id;
-    }
-
-    public void setId(int id) {
-
-        this.id = id;
-    }
-
-    public String getLicensePlate() {
-
-        return licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-
-        this.licensePlate = licensePlate;
-    }
-
-    public String getManufacturer() {
-
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-
-        this.manufacturer = manufacturer;
-    }
-
-    public String getModel() {
-
-        return model;
-    }
-
-    public void setModel(String model) {
-
-        this.model = model;
-    }
-
-    public int getYear() {
-
-        return year;
-    }
-
-    public void setYear(int year) {
-
-        this.year = year;
-    }
-
-    public String getType() {
-
-        return type;
-    }
-
-    public void setType(String type) {
-
-        this.type = type;
-    }
-
-    public int getSeats() {
-
-        return seats;
-    }
-
-    public void setSeats(int seats) {
-
-        this.seats = seats;
-    }
 
 }

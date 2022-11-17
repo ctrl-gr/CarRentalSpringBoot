@@ -1,8 +1,9 @@
 package com.carrentalspringboot.controller;
 
-import com.carrentalspringboot.model.Car;
+import com.carrentalspringboot.dto.UserResponse;
+import com.carrentalspringboot.mapper.UserMapper;
 import com.carrentalspringboot.service.UserService;
-import lombok.SneakyThrows;
+import lombok.Builder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,33 +18,29 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+
+    @GetMapping(value = "/all", produces = "application/json")
+    public ResponseEntity<List<UserResponse>> getUsers() {
+        List<UserResponse> userResponse = userMapper.fromEntityToResponse(userService.getUsers());
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users", produces = "application/json")
-    public ResponseEntity<List<User>> getUsers() {
-
-        List<User> users = userService.getUsers();
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-
-    }
-    @DeleteMapping(value = "delete/user/{userId}", produces = "application/json")
-    @SneakyThrows
+    @DeleteMapping(value = "delete/{userId}", produces = "application/json")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId) {
 
         userService.deleteUser(userId);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/saveUser", produces = "application/json")
+    @PostMapping(value = "/save", produces = "application/json")
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         userService.saveUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/editUser", produces = "application/json")
+    @PutMapping(value = "/edit", produces = "application/json")
     public ResponseEntity<?> editUser(@RequestBody User user) {
         userService.updateUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
