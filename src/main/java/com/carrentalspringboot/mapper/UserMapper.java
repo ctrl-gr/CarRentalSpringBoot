@@ -20,7 +20,6 @@ public class UserMapper {
     private final ModelMapper mapper;
 
     public UserResponse fromEntityToResponse(User user) {
-
         return mapper.map(user, UserResponse.class);
     }
 

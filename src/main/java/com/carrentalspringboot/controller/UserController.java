@@ -14,8 +14,9 @@ import com.carrentalspringboot.model.User;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/users")
-@CrossOrigin("http://localhost:4200")
+@RequestMapping("/users")
+@CrossOrigin("*") // localhost 4200
+@Builder
 public class UserController {
 
     private final UserService userService;

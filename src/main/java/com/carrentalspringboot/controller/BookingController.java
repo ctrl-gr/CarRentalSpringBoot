@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/bookings")
-@CrossOrigin("http://localhost:4200")
+@RequestMapping("/bookings")
+@CrossOrigin("*") // localhost 4200
+@Builder
 public class BookingController {
 
     private final BookingService bookingService;
@@ -25,24 +26,24 @@ public class BookingController {
 
 
 
-    @GetMapping(value = "/bookings", produces = "application/json")
-    private ResponseEntity<List<Booking>> getBookings() {
+    @GetMapping(value = "/all", produces = "application/json")
+    private ResponseEntity<List<BookingResponse>> getBookings() {
 
         List<BookingResponse> bookingsResponse = bookingMapper.fromEntityToResponse(bookingService.getBookings());
         return new ResponseEntity<>(bookingsResponse, HttpStatus.OK);
 
     }
 
-    @DeleteMapping(value = "delete/booking/{bookingId}", produces = "application/json")
-    @SneakyThrows
+    @DeleteMapping(value = "/delete/{bookingId}", produces = "application/json")
     public ResponseEntity<?> deleteBooking(@PathVariable("bookingId") int bookingId) {
 
         bookingService.deleteBooking(bookingId);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/saveBooking", produces = "application/json")
-    public ResponseEntity<?> saveBooking(@RequestBody Booking booking) {
+    @PostMapping(value = "/save", produces = "application/json")
+    public ResponseEntity<?> saveBooking(@RequestBody BookingRequest bookingRequest) {
+        Booking booking = bookingMapper.fromResponseToEntity(bookingRequest);
         bookingService.saveBooking(booking);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }

@@ -19,6 +19,7 @@ import java.util.List;
 public class BookingMapper {
 
     private final ModelMapper mapper;
+
     public BookingResponse fromEntityToResponse(Booking booking) {
         BookingResponse bookingResponse = new BookingResponse();
         bookingResponse.setCar(booking.getCar().getId());

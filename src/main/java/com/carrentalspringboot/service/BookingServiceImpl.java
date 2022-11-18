@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.model.Booking;
+import com.carrentalspringboot.repository.BookingRepository;
+import com.carrentalspringboot.specifications.BookingSpecification;
+import com.carrentalspringboot.specifications.CarSpecification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

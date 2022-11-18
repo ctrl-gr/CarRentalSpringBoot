@@ -6,21 +6,21 @@ import java.util.List;
 
 import com.carrentalspringboot.model.Car;
 import com.carrentalspringboot.repository.CarRepository;
+import com.carrentalspringboot.specifications.CarSpecification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
 
-    public CarServiceImpl(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
     @Override
     public List<Car> getCars() {
-        List<Car> cars = new ArrayList<Car>();
+        List<Car> cars = new ArrayList<>();
         carRepository.findAll().forEach(carToAdd -> cars.add(carToAdd));
         return cars;
     }
@@ -31,8 +31,15 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getAvailableCars(Date startDate, Date endDate) {
-        return null;    }
+    public List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate) {
+        return carRepository.findAll(
+                CarSpecification
+                        .builder()
+                        .startDate(startDate)
+                        .endDate(endDate)
+                        .build());
+    }
+
     @Override
     public void saveCar(Car car) {
         carRepository.save(car);

@@ -1,9 +1,12 @@
 package com.carrentalspringboot.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.*;
-import java.util.Date;
+import lombok.Data;
 
+
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Data
 @Entity
 @Table(name = "booking")
 public class Booking {
@@ -21,8 +24,7 @@ public class Booking {
     private Car car;
 
     @Column(name = "start_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
     private LocalDate endDate;
