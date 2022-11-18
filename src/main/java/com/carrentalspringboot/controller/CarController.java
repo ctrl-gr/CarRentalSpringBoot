@@ -1,5 +1,6 @@
 package com.carrentalspringboot.controller;
 
+import com.carrentalspringboot.dto.CarRequest;
 import com.carrentalspringboot.dto.CarResponse;
 import com.carrentalspringboot.mapper.CarMapper;
 import com.carrentalspringboot.model.Car;
@@ -39,8 +40,8 @@ public class CarController {
     }
 
     @PostMapping(value = "/save", produces = "application/json")
-    public ResponseEntity<Car> saveCar(@RequestBody CarResponse carResponse) {
-        Car car = carMapper.fromResponseToEntity(carResponse);
+    public ResponseEntity<Car> saveCar(@RequestBody CarRequest carRequest) {
+        Car car = carMapper.fromResponseToEntity(carRequest);
         carService.saveCar(car);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
@@ -51,10 +52,12 @@ public class CarController {
         return new ResponseEntity<List<Car>>(availableCars, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/edit", produces = "application/json")
-    public ResponseEntity<?> editCar(@RequestBody Car car) {
+    @PutMapping(value = "/edit/{carId}", produces = "application/json")
+    public ResponseEntity<?> editCar(@PathVariable("carId") int carId, @RequestBody CarRequest carRequest) {
+        Car car = carMapper.fromResponseToEntity(carRequest);
+        car.setId(carId);
         carService.updateCar(car);
-        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 }
 

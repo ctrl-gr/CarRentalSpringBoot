@@ -1,5 +1,6 @@
 package com.carrentalspringboot.controller;
 
+import com.carrentalspringboot.dto.UserRequest;
 import com.carrentalspringboot.dto.UserResponse;
 import com.carrentalspringboot.mapper.UserMapper;
 import com.carrentalspringboot.service.UserService;
@@ -35,14 +36,17 @@ public class UserController {
     }
 
     @PostMapping(value = "/save", produces = "application/json")
-    public ResponseEntity<?> saveUser(@RequestBody User user) {
+    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest) {
+        User user = userMapper.fromResponseToEntity(userRequest);
         userService.saveUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/edit", produces = "application/json")
-    public ResponseEntity<?> editUser(@RequestBody User user) {
+    @PutMapping(value = "/edit{userId}", produces = "application/json")
+    public ResponseEntity<?> editUser(@PathVariable("userId") int userId, @RequestBody UserRequest userRequest) {
+        User user = userMapper.fromResponseToEntity(userRequest);
+        user.setId(userId);
         userService.updateUser(user);
-        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 }

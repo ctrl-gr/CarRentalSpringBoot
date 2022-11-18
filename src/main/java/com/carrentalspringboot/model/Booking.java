@@ -25,69 +25,17 @@ public class Booking {
     private Date startDate;
 
     @Column(name = "end_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
-
+    private LocalDate endDate;
 
     @Column(name = "is_approved")
     private boolean isApproved;
-
-
-    public Booking() {
-
-    }
-
-
-    public int getId() {
-
-        return id;
-    }
-
-    public void setId(int id) {
-
-        this.id = id;
-    }
-
-    public User getUser() {
-
-        return user;
-    }
-
-    public void setUser(User user) {
-
-        this.user = user;
-    }
-
-    public Car getCar() {
-
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
     public boolean getIsApproved() {
         return isApproved;
     }
 
-    public void setIsApproved(boolean approved) {
-        isApproved = approved;
+    public void setIsApproved(boolean isApproved) {
+        this.isApproved = isApproved;
     }
+
 }

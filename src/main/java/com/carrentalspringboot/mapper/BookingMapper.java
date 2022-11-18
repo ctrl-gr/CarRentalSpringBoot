@@ -1,7 +1,10 @@
 package com.carrentalspringboot.mapper;
 
+import com.carrentalspringboot.dto.BookingRequest;
 import com.carrentalspringboot.dto.BookingResponse;
+import com.carrentalspringboot.dto.CarResponse;
 import com.carrentalspringboot.model.Booking;
+import com.carrentalspringboot.model.Car;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,10 +21,12 @@ public class BookingMapper {
     private final ModelMapper mapper;
     public BookingResponse fromEntityToResponse(Booking booking) {
         BookingResponse bookingResponse = new BookingResponse();
-        bookingResponse.setCar(String.format("%s %s", booking.getCar().getManufacturer(), booking.getCar().getModel()));
-        bookingResponse.setUser(booking.getUser().getUsername());
+        bookingResponse.setCar(booking.getCar().getId());
+        bookingResponse.setUser(booking.getUser().getId());
         bookingResponse.setStartDate(booking.getStartDate());
         bookingResponse.setEndDate(booking.getEndDate());
+        bookingResponse.setIsApproved(booking.getIsApproved());
+
         return bookingResponse;
     }
 
@@ -31,5 +36,9 @@ public class BookingMapper {
             responseList.add(fromEntityToResponse(booking));
         }
         return responseList;
+    }
+
+    public Booking fromResponseToEntity(BookingRequest bookingRequest) {
+        return mapper.map(bookingRequest, Booking.class);
     }
 }

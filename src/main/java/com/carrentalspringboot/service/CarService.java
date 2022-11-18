@@ -10,8 +10,6 @@ public interface CarService {
 
     void saveCar(Car car);
 
-    void updateCar(Car car);
-
     void deleteCar(int id);
 
     Car getCarById(int id);
@@ -19,4 +17,6 @@ public interface CarService {
     List<Car> getAvailableCars(Date startDate, Date endDate);
 
     List<Car> getCars();
+
+    void updateCar(Car car);
 }

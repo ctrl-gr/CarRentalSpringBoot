@@ -1,6 +1,7 @@
 package com.carrentalspringboot.mapper;
 
 
+import com.carrentalspringboot.dto.UserRequest;
 import com.carrentalspringboot.dto.UserResponse;
 import com.carrentalspringboot.model.User;
 import lombok.Data;
@@ -29,5 +30,9 @@ public class UserMapper {
             responseList.add(fromEntityToResponse(user));
         }
         return responseList;
+    }
+
+    public User fromResponseToEntity(UserRequest userRequest) {
+        return mapper.map(userRequest, User.class);
     }
 }

@@ -39,7 +39,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getBookingsByUser(User user) {
-        return null; // TODO to implement in repository interface
+        return bookingRepository.findAll(
+        BookingSpecification
+                .builder()
+                .user(user)
+                .build());
     }
 
     @Override
