@@ -43,7 +43,7 @@ public class UserController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/edit{userId}", produces = "application/json")
+    @PutMapping(value = "/edit/{userId}", produces = "application/json")
     public ResponseEntity<?> editUser(@PathVariable("userId") int userId, @RequestBody UserRequest userRequest) {
         User user = userMapper.fromResponseToEntity(userRequest);
         user.setId(userId);

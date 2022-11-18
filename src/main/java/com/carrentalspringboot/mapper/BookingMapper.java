@@ -40,6 +40,13 @@ public class BookingMapper {
     }
 
     public Booking fromResponseToEntity(BookingRequest bookingRequest) {
-        return mapper.map(bookingRequest, Booking.class);
+        Booking booking = new Booking();
+        booking.setUser(bookingRequest.getUser());
+        booking.setCar(bookingRequest.getCar());
+        booking.setStartDate(bookingRequest.getStartDate());
+        booking.setEndDate(bookingRequest.getEndDate());
+        booking.setIsApproved(bookingRequest.getIsApproved());
+
+        return booking;
     }
 }
