@@ -13,7 +13,6 @@ public interface CarService {
 
     void deleteCar(int id);
 
-    Car getCarById(int id);
 
     List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate);
 

@@ -2,6 +2,7 @@ package com.carrentalspringboot.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.model.Booking;
 import com.carrentalspringboot.repository.BookingRepository;
@@ -43,10 +44,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getBookingsByUser(User user) {
         return bookingRepository.findAll(
-        BookingSpecification
-                .builder()
-                .user(user)
-                .build());
+                BookingSpecification
+                        .builder()
+                        .user(user)
+                        .build());
     }
 
     @Override

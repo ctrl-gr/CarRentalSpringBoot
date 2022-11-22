@@ -1,8 +1,10 @@
 package com.carrentalspringboot.model;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Data
@@ -31,6 +33,7 @@ public class User {
 
     @Column(name="is_admin")
     private boolean isAdmin;
+
 
 
 }

@@ -2,7 +2,7 @@ package com.carrentalspringboot.dto;
 
 import lombok.Data;
 
-// Come voglio i dati
+
 @Data
 public class CarResponse {
 

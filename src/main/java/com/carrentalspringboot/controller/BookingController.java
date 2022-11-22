@@ -56,8 +56,8 @@ public class BookingController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @GetMapping(value="/my-bookings", produces = "application/json")
-    public ResponseEntity<List<Booking>> myBookings(@RequestParam("userId") int userId) {
+    @GetMapping(value="/my-bookings/{userId}", produces = "application/json")
+    public ResponseEntity<List<Booking>> myBookings(@PathVariable("userId") int userId) {
         List<Booking> myBookings = bookingService.getBookingsByUser(userService.getUserById(userId));
         return new ResponseEntity<>(myBookings, HttpStatus.OK);
     }

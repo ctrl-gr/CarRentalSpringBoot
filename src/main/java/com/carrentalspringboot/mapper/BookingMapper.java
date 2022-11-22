@@ -2,12 +2,10 @@ package com.carrentalspringboot.mapper;
 
 import com.carrentalspringboot.dto.BookingRequest;
 import com.carrentalspringboot.dto.BookingResponse;
-import com.carrentalspringboot.dto.CarResponse;
 import com.carrentalspringboot.model.Booking;
-import com.carrentalspringboot.model.Car;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,8 +15,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class BookingMapper {
-
-    private final ModelMapper mapper;
 
     public BookingResponse fromEntityToResponse(Booking booking) {
         BookingResponse bookingResponse = new BookingResponse();
