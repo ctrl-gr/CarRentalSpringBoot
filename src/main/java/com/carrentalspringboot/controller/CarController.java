@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @Builder
 @RequestMapping("/cars")
-@CrossOrigin("*") // localhost 4200
+@CrossOrigin("http://localhost:4200")
 public class CarController {
 
     private final CarService carService;
@@ -44,8 +44,8 @@ public class CarController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/get-available-cars", produces = "application/json")
-    public ResponseEntity<List<Car>> getAvailableCars(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+    @GetMapping(value = "/get-available-cars/{startDate}&{endDate}", produces = "application/json")
+    public ResponseEntity<List<Car>> getAvailableCars(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate) {
         List<Car> availableCars = carService.getAvailableCars(LocalDate.parse(startDate), LocalDate.parse(endDate));
         return new ResponseEntity<>(availableCars, HttpStatus.OK);
     }

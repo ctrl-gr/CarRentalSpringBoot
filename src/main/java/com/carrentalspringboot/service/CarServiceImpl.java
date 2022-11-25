@@ -25,10 +25,6 @@ public class CarServiceImpl implements CarService {
         return cars;
     }
 
-    @Override
-    public Car getCarById(int id) {
-        return carRepository.findById(id).get();
-    }
 
     @Override
     public List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate) {

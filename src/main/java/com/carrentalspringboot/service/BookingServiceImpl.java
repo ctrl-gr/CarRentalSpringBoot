@@ -37,11 +37,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking getBookingById(int id) {
-        return bookingRepository.findById(id).get();
-    }
-
-    @Override
     public List<Booking> getBookingsByUser(User user) {
         return bookingRepository.findAll(
                 BookingSpecification

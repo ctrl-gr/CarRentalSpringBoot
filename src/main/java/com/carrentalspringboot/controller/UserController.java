@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin("*") // localhost 4200
+@CrossOrigin("http://localhost:4200")
 @Builder
 public class UserController {
 
@@ -50,4 +50,11 @@ public class UserController {
         userService.updateUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
+
+    @GetMapping(value="/get-user-by-username/{username}", produces = "application/json")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+        User user = userService.getUserByUsername(username);
+        return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
+    }
+
 }

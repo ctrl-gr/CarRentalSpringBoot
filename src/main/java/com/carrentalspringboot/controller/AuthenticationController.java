@@ -22,7 +22,7 @@ import com.carrentalspringboot.model.JwtRequest;
 import com.carrentalspringboot.model.JwtResponse;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 @Builder
 public class AuthenticationController {
 

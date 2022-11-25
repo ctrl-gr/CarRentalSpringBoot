@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bookings")
-@CrossOrigin("*") // localhost 4200
+@CrossOrigin("http://localhost:4200")
 @Builder
 public class BookingController {
 
@@ -56,9 +56,9 @@ public class BookingController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @GetMapping(value="/my-bookings/{userId}", produces = "application/json")
-    public ResponseEntity<List<Booking>> myBookings(@PathVariable("userId") int userId) {
-        List<Booking> myBookings = bookingService.getBookingsByUser(userService.getUserById(userId));
+    @GetMapping(value="/my-bookings/{username}", produces = "application/json")
+    public ResponseEntity<List<Booking>> myBookings(@PathVariable("username") String username) {
+        List<Booking> myBookings = bookingService.getBookingsByUser(userService.getUserByUsername(username));
         return new ResponseEntity<>(myBookings, HttpStatus.OK);
     }
 }
