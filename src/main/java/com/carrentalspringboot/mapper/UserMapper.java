@@ -33,6 +33,7 @@ public class UserMapper {
 
     public User fromResponseToEntity(UserRequest userRequest) {
         User user = new User();
+
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setBirthDate(userRequest.getBirthDate());

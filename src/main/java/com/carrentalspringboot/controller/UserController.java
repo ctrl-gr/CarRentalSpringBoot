@@ -29,10 +29,11 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "delete/{userId}", produces = "application/json")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId) {
+    @DeleteMapping(value = "delete/{username}", produces = "application/json")
+    public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
 
-        userService.deleteUser(userId);
+        User user = userService.getUserByUsername(username);
+        userService.deleteUser(user.getId());
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -43,8 +44,9 @@ public class UserController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/edit/{userId}", produces = "application/json")
-    public ResponseEntity<?> editUser(@PathVariable("userId") int userId, @RequestBody UserRequest userRequest) {
+    @PutMapping(value = "/edit/{username}", produces = "application/json")
+    public ResponseEntity<?> editUser(@RequestBody UserRequest userRequest, @PathVariable String username) {
+        int userId = userService.getUserByUsername(username).getId();
         User user = userMapper.fromResponseToEntity(userRequest);
         user.setId(userId);
         userService.updateUser(user);

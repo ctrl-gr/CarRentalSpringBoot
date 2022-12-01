@@ -12,9 +12,9 @@ public interface UserService {
 
     List<User> getUsers();
 
-    User getUserById(int id);
-
     void updateUser(User user);
+
+    User getUserById(int id);
 
     User getUserByUsername(String username);
 }

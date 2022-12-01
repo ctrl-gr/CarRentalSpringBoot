@@ -11,7 +11,7 @@ public interface BookingService {
 
     void updateBooking(Booking booking);
 
-    void deleteBooking(int id);
+    void deleteBooking(Booking booking);
 
     List<Booking> getBookingsByUser(User user);
 

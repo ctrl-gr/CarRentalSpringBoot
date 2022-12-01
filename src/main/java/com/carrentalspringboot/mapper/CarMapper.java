@@ -3,6 +3,7 @@ package com.carrentalspringboot.mapper;
 import com.carrentalspringboot.dto.CarRequest;
 import com.carrentalspringboot.dto.CarResponse;
 import com.carrentalspringboot.model.Car;
+import com.carrentalspringboot.model.User;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,8 +34,16 @@ public class CarMapper {
     }
 
     public Car fromResponseToEntity(CarRequest carRequest) {
+        Car car = new Car();
+        car.setLicensePlate(carRequest.getLicensePlate());
+        car.setManufacturer(carRequest.getManufacturer());
+        car.setModel(carRequest.getModel());
+        car.setType(carRequest.getType());
+        car.setYear(carRequest.getYear());
+        car.setSeats(carRequest.getSeats());
 
-        return mapper.map(carRequest, Car.class);
+        return car;
+
     }
 
 }

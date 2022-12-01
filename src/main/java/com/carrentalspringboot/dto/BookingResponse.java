@@ -1,5 +1,7 @@
 package com.carrentalspringboot.dto;
 
+import com.carrentalspringboot.model.Car;
+import com.carrentalspringboot.model.User;
 import lombok.Data;
 
 import java.time.LocalDate;

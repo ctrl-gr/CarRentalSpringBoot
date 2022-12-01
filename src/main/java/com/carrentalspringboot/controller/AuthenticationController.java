@@ -50,7 +50,7 @@ public class AuthenticationController {
 
 
     @PostMapping(value = "/register", produces = "application/json")
-    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> saveUser(UserRequest userRequest) {
         User user = userMapper.fromResponseToEntity(userRequest);
         userService.saveUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);

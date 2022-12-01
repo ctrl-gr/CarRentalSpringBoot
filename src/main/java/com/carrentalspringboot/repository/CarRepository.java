@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Integer>, JpaSpecificationExecutor<Car> {
-
+    Car getCarByLicensePlate(String licensePlate);
 
 }
 

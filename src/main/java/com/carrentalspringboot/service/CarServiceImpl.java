@@ -2,6 +2,7 @@ package com.carrentalspringboot.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.carrentalspringboot.model.Car;
@@ -50,5 +51,10 @@ public class CarServiceImpl implements CarService {
     public void updateCar(Car car) {
 
         carRepository.save(car);
+    }
+
+    @Override
+    public Car getCarByLicensePlate(String licensePlate) {
+        return carRepository.getCarByLicensePlate(licensePlate);
     }
 }

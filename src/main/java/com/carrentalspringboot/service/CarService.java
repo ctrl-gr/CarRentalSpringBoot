@@ -19,4 +19,6 @@ public interface CarService {
     List<Car> getCars();
 
     void updateCar(Car car);
+
+    Car getCarByLicensePlate(String licensePlate);
 }
