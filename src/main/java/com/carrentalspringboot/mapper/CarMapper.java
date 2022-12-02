@@ -3,7 +3,6 @@ package com.carrentalspringboot.mapper;
 import com.carrentalspringboot.dto.CarRequest;
 import com.carrentalspringboot.dto.CarResponse;
 import com.carrentalspringboot.model.Car;
-import com.carrentalspringboot.model.User;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

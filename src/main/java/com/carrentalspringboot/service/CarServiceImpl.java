@@ -1,16 +1,15 @@
 package com.carrentalspringboot.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.carrentalspringboot.model.Car;
 import com.carrentalspringboot.repository.CarRepository;
 import com.carrentalspringboot.specifications.CarSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -56,5 +55,10 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car getCarByLicensePlate(String licensePlate) {
         return carRepository.getCarByLicensePlate(licensePlate);
+    }
+
+    @Override
+    public Car getCarById(int carId) {
+        return carRepository.getCarById(carId);
     }
 }

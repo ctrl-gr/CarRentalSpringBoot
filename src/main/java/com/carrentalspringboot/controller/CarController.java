@@ -2,10 +2,8 @@ package com.carrentalspringboot.controller;
 
 import com.carrentalspringboot.dto.CarRequest;
 import com.carrentalspringboot.dto.CarResponse;
-import com.carrentalspringboot.dto.UserRequest;
 import com.carrentalspringboot.mapper.CarMapper;
 import com.carrentalspringboot.model.Car;
-import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.service.CarService;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -43,14 +40,14 @@ public class CarController {
     }
 
     @PostMapping(value = "/save", produces = "application/json")
-    public ResponseEntity<?> saveCar(CarRequest carRequest) {
+    public ResponseEntity<?> saveCar(@RequestBody CarRequest carRequest) {
         Car car = carMapper.fromResponseToEntity(carRequest);
         carService.saveCar(car);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-     @GetMapping(value = "/get-available-cars", produces = "application/json")
-    public ResponseEntity<List<CarResponse>> getAvailableCars(@DateTimeFormat(pattern="yyyy-MM-dd") @RequestParam("startDate") LocalDate startDate, @DateTimeFormat(pattern="yyyy-MM-dd") @RequestParam("endDate") LocalDate endDate) {
+    @GetMapping(value = "/get-available-cars", produces = "application/json")
+    public ResponseEntity<List<CarResponse>> getAvailableCars(@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("startDate") LocalDate startDate, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("endDate") LocalDate endDate) {
         List<CarResponse> availableCars = carMapper.fromEntityToResponse(carService.getAvailableCars(startDate, endDate));
         return new ResponseEntity<>(availableCars, HttpStatus.OK);
     }
@@ -65,8 +62,8 @@ public class CarController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping(value="/get-car-by-license-plate/{licensePlate}", produces = "application/json")
-    public ResponseEntity<Car> getCarByLicensePlate(@PathVariable String licensePlate){
+    @GetMapping(value = "/get-car-by-license-plate/{licensePlate}", produces = "application/json")
+    public ResponseEntity<Car> getCarByLicensePlate(@PathVariable String licensePlate) {
         Car car = carService.getCarByLicensePlate(licensePlate);
         return new ResponseEntity<Car>(car, new HttpHeaders(), HttpStatus.OK);
     }

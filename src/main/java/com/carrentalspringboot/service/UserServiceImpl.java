@@ -1,13 +1,13 @@
 package com.carrentalspringboot.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
+
     @Override
     public void updateUser(User user) {
         userRepository.save(user);

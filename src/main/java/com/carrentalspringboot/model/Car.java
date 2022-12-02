@@ -1,8 +1,10 @@
 package com.carrentalspringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,6 +15,10 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_id")
     private int id;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "car")
+    private List<Booking> bookings;
 
     @Column(name = "license_plate")
     private String licensePlate;

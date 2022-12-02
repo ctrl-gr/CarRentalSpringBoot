@@ -3,13 +3,13 @@ package com.carrentalspringboot.controller;
 import com.carrentalspringboot.dto.UserRequest;
 import com.carrentalspringboot.dto.UserResponse;
 import com.carrentalspringboot.mapper.UserMapper;
+import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.service.UserService;
 import lombok.Builder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.carrentalspringboot.model.User;
 
 import java.util.List;
 
@@ -53,8 +53,8 @@ public class UserController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping(value="/get-user-by-username/{username}", produces = "application/json")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+    @GetMapping(value = "/get-user-by-username/{username}", produces = "application/json")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
         User user = userService.getUserByUsername(username);
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
     }

@@ -1,15 +1,16 @@
 package com.carrentalspringboot.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.model.Booking;
+import com.carrentalspringboot.model.Car;
+import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.repository.BookingRepository;
 import com.carrentalspringboot.specifications.BookingSpecification;
-import com.carrentalspringboot.specifications.CarSpecification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -43,6 +44,12 @@ public class BookingServiceImpl implements BookingService {
                         .builder()
                         .user(user)
                         .build());
+    }
+
+
+    @Override
+    public Booking getBooking(Car car, User user, LocalDate startDate, LocalDate endDate) {
+        return bookingRepository.findByCarAndAndUserAndStartDateAndEndDate(car, user, startDate, endDate);
     }
 
     @Override

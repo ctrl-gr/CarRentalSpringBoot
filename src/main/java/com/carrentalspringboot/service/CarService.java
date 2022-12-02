@@ -4,7 +4,6 @@ package com.carrentalspringboot.service;
 import com.carrentalspringboot.model.Car;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface CarService {
@@ -21,4 +20,6 @@ public interface CarService {
     void updateCar(Car car);
 
     Car getCarByLicensePlate(String licensePlate);
+
+    Car getCarById(int id);
 }

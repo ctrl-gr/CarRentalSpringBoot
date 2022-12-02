@@ -7,6 +7,7 @@ import com.carrentalspringboot.model.User;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import java.util.List;
 public class UserMapper {
 
     private final ModelMapper mapper;
+    private final PasswordEncoder passwordEncoder;
+
 
     public UserResponse fromEntityToResponse(User user) {
         return mapper.map(user, UserResponse.class);
@@ -33,12 +36,11 @@ public class UserMapper {
 
     public User fromResponseToEntity(UserRequest userRequest) {
         User user = new User();
-
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
-        user.setBirthDate(userRequest.getBirthDate());
+        user.setBirthDate((userRequest.getBirthDate()));
         user.setUsername(userRequest.getUsername());
-        user.setPassword(userRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         return user;
     }

@@ -1,9 +1,13 @@
 package com.carrentalspringboot.controller;
 
 
+import com.carrentalspringboot.dto.JwtRequest;
+import com.carrentalspringboot.dto.JwtResponse;
 import com.carrentalspringboot.dto.UserRequest;
 import com.carrentalspringboot.mapper.UserMapper;
 import com.carrentalspringboot.model.User;
+import com.carrentalspringboot.security.JwtTokenUtil;
+import com.carrentalspringboot.security.JwtUserDetailsService;
 import com.carrentalspringboot.service.UserService;
 import lombok.Builder;
 import org.springframework.http.HttpHeaders;
@@ -13,13 +17,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-import com.carrentalspringboot.security.JwtUserDetailsService;
-
-
-import com.carrentalspringboot.security.JwtTokenUtil;
-import com.carrentalspringboot.model.JwtRequest;
-import com.carrentalspringboot.model.JwtResponse;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
@@ -50,7 +51,7 @@ public class AuthenticationController {
 
 
     @PostMapping(value = "/register", produces = "application/json")
-    public ResponseEntity<?> saveUser(UserRequest userRequest) {
+    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest) {
         User user = userMapper.fromResponseToEntity(userRequest);
         userService.saveUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);

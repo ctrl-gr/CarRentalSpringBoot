@@ -4,8 +4,6 @@ import com.carrentalspringboot.dto.BookingRequest;
 import com.carrentalspringboot.dto.BookingResponse;
 import com.carrentalspringboot.mapper.BookingMapper;
 import com.carrentalspringboot.model.Booking;
-import com.carrentalspringboot.model.Car;
-import com.carrentalspringboot.model.User;
 import com.carrentalspringboot.service.BookingService;
 import com.carrentalspringboot.service.CarService;
 import com.carrentalspringboot.service.UserService;
@@ -32,7 +30,6 @@ public class BookingController {
     private final BookingMapper bookingMapper;
 
 
-
     @GetMapping(value = "/all", produces = "application/json")
     private ResponseEntity<List<BookingResponse>> getBookings() {
 
@@ -43,35 +40,29 @@ public class BookingController {
 
     @PostMapping(value = "/delete", produces = "application/json")
     public ResponseEntity<?> deleteBooking(@RequestBody BookingRequest bookingRequest) {
-        Booking booking = bookingMapper.fromResponseToEntity(bookingRequest);
+        Booking booking = bookingMapper.fromResponseToEntityToApproveOrDelete(bookingRequest);
         bookingService.deleteBooking(booking);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/save", produces = "application/json")
-    public ResponseEntity<?> saveBooking(@RequestParam("licensePlate") String licensePlate, @RequestParam("userId") int userId, @DateTimeFormat(pattern="yyyy-MM-dd") @RequestParam("startDate") LocalDate startDate, @DateTimeFormat(pattern="yyyy-MM-dd") @RequestParam("endDate") LocalDate endDate) {
-        Booking booking = new Booking ();
-        booking.setCar(carService.getCarByLicensePlate(licensePlate));
-        booking.setUser(userService.getUserById(userId));
-        booking.setStartDate(startDate);
-        booking.setEndDate(endDate);
-        booking.setIsApproved(false);
+    public ResponseEntity<?> saveBooking(@RequestParam("licensePlate") String licensePlate, @RequestParam("username") String username, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("startDate") LocalDate startDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+        Booking booking = bookingMapper.fromResponseToEntityToSave(licensePlate, username, startDate, endDate);
         bookingService.saveBooking(booking);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/approve", produces = "application/json")
     public ResponseEntity<?> approveBooking(@RequestBody BookingRequest bookingRequest) {
-        Booking booking = bookingMapper.fromResponseToEntity(bookingRequest);
+        Booking booking = bookingMapper.fromResponseToEntityToApproveOrDelete(bookingRequest);
         bookingService.updateBooking(booking);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @GetMapping(value="/my-bookings/{username}", produces = "application/json")
-    public ResponseEntity<List<Booking>> myBookings(@PathVariable("username") String username) {
-        List<Booking> myBookings = bookingService.getBookingsByUser(userService.getUserByUsername(username));
+    @GetMapping(value = "/my-bookings/{username}", produces = "application/json")
+    public ResponseEntity<List<BookingResponse>> myBookings(@PathVariable("username") String username) {
+        List<BookingResponse> myBookings = bookingMapper.fromEntityToResponseMyBookings(username);
         return new ResponseEntity<>(myBookings, HttpStatus.OK);
     }
 }
 
-//TODO delete booking as a post

@@ -5,9 +5,10 @@ import com.carrentalspringboot.model.User;
 import lombok.Builder;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
-import java.util.Collection;
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 @Builder
 public class BookingSpecification implements Specification<Booking> {
@@ -19,7 +20,7 @@ public class BookingSpecification implements Specification<Booking> {
 
         Predicate myPredicate = criteriaBuilder.equal(root.get("user").get("id"), user.getId());
 
-        return myPredicate ;
+        return myPredicate;
 
     }
 

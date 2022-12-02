@@ -1,4 +1,4 @@
-package com.carrentalspringboot.model;
+package com.carrentalspringboot.dto;
 
 import lombok.Data;
 
