@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Data
 public class BookingResponse {
 
+    private String ManufacturerModel;
     private String licensePlate;
     private String username;
     private LocalDate startDate;
