@@ -51,7 +51,7 @@ public class BookingMapper {
         List<Booking> myBookings = bookingService.getBookingsByUser(userService.getUserByUsername(username));
         for (Booking myBooking : myBookings) {
 
-            myBookingResponse.setManufacturerModel(myBooking.getCar().getManufacturer() + "" + myBooking.getCar().getModel());
+            myBookingResponse.setManufacturerModel(myBooking.getCar().getManufacturer() + " " + myBooking.getCar().getModel());
             myBookingResponse.setStartDate(myBooking.getStartDate());
             myBookingResponse.setEndDate(myBooking.getEndDate());
             myBookingResponse.setIsApproved(myBooking.getIsApproved());
