@@ -4,6 +4,7 @@ package com.carrentalspringboot.mapper;
 import com.carrentalspringboot.dto.UserRequest;
 import com.carrentalspringboot.dto.UserResponse;
 import com.carrentalspringboot.model.User;
+import com.carrentalspringboot.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,6 +21,7 @@ public class UserMapper {
 
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
 
     public UserResponse fromEntityToResponse(User user) {
@@ -43,5 +45,18 @@ public class UserMapper {
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         return user;
+    }
+    public User storeImageInDb(String username, String path) {
+        User user = userService.getUserByUsername(username);
+        user.setImage(path);
+        userService.updateUser(user);
+
+        return user;
+    }
+
+    public String getImageUrlFromDb(String username) {
+        User user = userService.getUserByUsername(username);
+        String path = user.getImage();
+        return path;
     }
 }

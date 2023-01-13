@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-public class CarSpecification implements Specification<Car> {
+public class CanMoveCarSpecification implements Specification<Car> {
 
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private final int carId;
 
     @Override
     public Predicate toPredicate(Root<Car> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -23,19 +22,20 @@ public class CarSpecification implements Specification<Car> {
 
         bookingSubquery
                 .select(bookingRoot.get("car").get("id"))
-                .where(getBookedByIntervalPredicate(bookingRoot, criteriaBuilder));
+                .where(isInBookedCars(bookingRoot, criteriaBuilder));
 
         return criteriaBuilder.not(criteriaBuilder.in(root.get("id")).value(bookingSubquery));
+
     }
 
-    private Predicate getBookedByIntervalPredicate(Root<Booking> bookingRoot, CriteriaBuilder criteriaBuilder) {
+    private Predicate isInBookedCars(Root<Booking> bookingRoot, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicateList = new ArrayList<>();
+        LocalDate today = LocalDate.now();
 
-        predicateList.add(criteriaBuilder.lessThanOrEqualTo(bookingRoot.get("startDate"), endDate));
-        predicateList.add(criteriaBuilder.greaterThanOrEqualTo(bookingRoot.get("endDate"), startDate));
+        predicateList.add(criteriaBuilder.equal(bookingRoot.get("car"), carId));
+        predicateList.add(criteriaBuilder.greaterThanOrEqualTo(bookingRoot.get("end_date"), today));
 
         return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
     }
-
 
 }

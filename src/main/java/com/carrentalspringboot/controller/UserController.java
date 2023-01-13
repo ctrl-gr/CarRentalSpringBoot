@@ -8,9 +8,15 @@ import com.carrentalspringboot.service.UserService;
 import lombok.Builder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.activation.FileTypeMap;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -56,7 +62,27 @@ public class UserController {
     @GetMapping(value = "/get-user-by-username/{username}", produces = "application/json")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
         User user = userService.getUserByUsername(username);
-        return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
     }
+
+    @PostMapping(value = "/upload-picture/{username}")
+    public ResponseEntity<?> handleFileUpload(@RequestParam("image") MultipartFile file, @PathVariable String username) {
+        String fileName = file.getOriginalFilename();
+        File normalFile = new File("C:\\Users\\Si2001\\Desktop\\upload\\" + fileName);
+        try {
+            file.transferTo(normalFile);
+           userMapper.storeImageInDb(username, normalFile.getAbsolutePath());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/get-image/{username}")
+    public ResponseEntity<byte[]> getImage(@PathVariable String username) throws IOException{
+        File img = new File(userMapper.getImageUrlFromDb(username));
+        return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
+    }
+
 
 }

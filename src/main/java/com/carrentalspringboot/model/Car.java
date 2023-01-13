@@ -1,12 +1,14 @@
 package com.carrentalspringboot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "car")
 public class Car {
@@ -19,6 +21,11 @@ public class Car {
     @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List<Booking> bookings;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "car_fleet_id")
+    private CarFleet carFleet;
 
     @Column(name = "license_plate")
     private String licensePlate;

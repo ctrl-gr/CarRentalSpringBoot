@@ -1,13 +1,15 @@
 package com.carrentalspringboot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "user")
 public class User {
@@ -38,5 +40,7 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
+    @Column(name = "image")
+    private String image;
 
 }

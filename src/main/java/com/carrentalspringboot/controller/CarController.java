@@ -32,10 +32,9 @@ public class CarController {
 
     }
 
-    @DeleteMapping(value = "delete/{licensePlate}", produces = "application/json")
-    public ResponseEntity<?> deleteCar(@PathVariable("licensePlate") String licensePlate) {
-        Car car = carService.getCarByLicensePlate(licensePlate);
-        carService.deleteCar(car.getId());
+    @DeleteMapping(value = "delete/{id}", produces = "application/json")
+    public ResponseEntity<?> deleteCar(@PathVariable("id") int id) {
+        carService.deleteCar(id);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -53,19 +52,21 @@ public class CarController {
     }
 
 
-    @PutMapping(value = "/edit/{licensePlate}", produces = "application/json")
-    public ResponseEntity<?> editCar(@RequestBody CarRequest carRequest, @PathVariable("licensePlate") String licensePlate) {
-        int carId = carService.getCarByLicensePlate(licensePlate).getId();
-        Car car = carMapper.fromResponseToEntity(carRequest);
-        car.setId(carId);
-        carService.updateCar(car);
-        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
+    @PutMapping(value = "/edit", produces = "application/json")
+    public ResponseEntity<?> editCar(@RequestBody CarRequest carRequest) {
+
+        try {
+           carService.moveCar(carRequest.getId());
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping(value = "/get-car-by-license-plate/{licensePlate}", produces = "application/json")
-    public ResponseEntity<Car> getCarByLicensePlate(@PathVariable String licensePlate) {
-        Car car = carService.getCarByLicensePlate(licensePlate);
-        return new ResponseEntity<Car>(car, new HttpHeaders(), HttpStatus.OK);
+    @GetMapping(value = "/get-car-by-id/{id}", produces = "application/json")
+    public ResponseEntity<CarResponse> getCarById(@PathVariable int id) {
+        CarResponse carResponse = carMapper.fromEntityToResponse(carService.getCarById(id));
+        return new ResponseEntity<>(carResponse, new HttpHeaders(), HttpStatus.OK);
     }
 }
 

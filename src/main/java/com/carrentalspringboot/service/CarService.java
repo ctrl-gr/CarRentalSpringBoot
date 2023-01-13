@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface CarService {
 
+
+    boolean moveCar(int carId);
+
     void saveCar(Car car);
 
     void deleteCar(int id);

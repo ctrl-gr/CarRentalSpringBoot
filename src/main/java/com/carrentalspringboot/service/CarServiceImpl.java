@@ -2,6 +2,7 @@ package com.carrentalspringboot.service;
 
 import com.carrentalspringboot.model.Car;
 import com.carrentalspringboot.repository.CarRepository;
+import com.carrentalspringboot.specifications.CanMoveCarSpecification;
 import com.carrentalspringboot.specifications.CarSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,21 @@ public class CarServiceImpl implements CarService {
                         .startDate(startDate)
                         .endDate(endDate)
                         .build());
+    }
+
+    @Override
+    public boolean moveCar(int carId) {
+
+            if (carRepository.exists(
+                CanMoveCarSpecification
+                        .builder()
+                        .carId(carId)
+                        .build())) {
+                updateCar(getCarById(carId));
+                return true;
+            }
+                throw new RuntimeException("Messaggio significativo");
+
     }
 
     @Override
