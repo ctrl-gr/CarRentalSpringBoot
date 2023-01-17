@@ -12,8 +12,6 @@ public interface CarFleetService {
 
     List<CarFleet> getCarFleets();
 
-    void updateCarFleet(CarFleet carFleet);
-
     CarFleet getCarFleetById(int id);
 
     CarFleet getCarFleetByHeadquartersName(String headquartersName);

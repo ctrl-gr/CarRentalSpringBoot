@@ -34,11 +34,6 @@ public class CarFleetServiceImpl implements CarFleetService {
         return carFleets;
     }
 
-    @Override
-    public void updateCarFleet(CarFleet carFleet) {
-        carFleetRepository.save(carFleet);
-    }
-
 
     @Override
     public CarFleet getCarFleetById(int id) {

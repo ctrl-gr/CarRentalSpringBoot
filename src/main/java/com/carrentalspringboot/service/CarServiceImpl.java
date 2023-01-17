@@ -15,9 +15,13 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+
+
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
+
+    private final CarFleetService carFleetService;
 
     @Override
     public List<Car> getCars() {
@@ -37,23 +41,39 @@ public class CarServiceImpl implements CarService {
                         .build());
     }
 
-    @Override
-    public boolean moveCar(int carId) {
 
-            if (carRepository.exists(
+    /*
+    - Ricontrollare la query
+     */
+
+    @Override
+    public boolean moveCar(CarRequest carRequest) {
+        List<Car> carAvailable = new ArrayList<>();
+        carRepository.findAll(
                 CanMoveCarSpecification
                         .builder()
-                        .carId(carId)
-                        .build())) {
-                updateCar(getCarById(carId));
+                        .carId(carRequest.getId())
+                        .build()).forEach(carToAdd -> carAvailable.add(carToAdd));
+        Car car = getCarById(carRequest.getId());
+            if (carAvailable.contains(car)) {
                 return true;
+            } else {
+                return false;
             }
-                throw new RuntimeException("Messaggio significativo");
-
     }
 
     @Override
-    public void saveCar(Car car) {
+    public void saveCar(CarRequest carRequest) {
+
+        Car car = new Car();
+        car.setLicensePlate(carRequest.getLicensePlate());
+        car.setManufacturer(carRequest.getManufacturer());
+        car.setModel(carRequest.getModel());
+        car.setType(carRequest.getType());
+        car.setYear(carRequest.getYear());
+        car.setSeats(carRequest.getSeats());
+        car.setCarFleet(carFleetService.getCarFleetByHeadquartersName(carRequest.getHeadquartersName()));
+
         carRepository.save(car);
     }
 
@@ -76,5 +96,38 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car getCarById(int carId) {
         return carRepository.getCarById(carId);
+    }
+
+    @Override
+    public void updateCar(CarRequest carRequest) {
+        Car car = getCarById(carRequest.getId());
+
+        if (!carRequest.getHeadquartersName().equals(car.getCarFleet().getHeadquartersName())) {
+            if (moveCar(carRequest)) {
+                car.setId(carRequest.getId());
+                car.setLicensePlate(carRequest.getLicensePlate());
+                car.setManufacturer(carRequest.getManufacturer());
+                car.setModel(carRequest.getModel());
+                car.setType(carRequest.getType());
+                car.setYear(carRequest.getYear());
+                car.setSeats(carRequest.getSeats());
+                car.setCarFleet(carFleetService.getCarFleetByHeadquartersName(carRequest.getHeadquartersName()));
+
+                carRepository.save(car);
+            } else {
+                throw new RuntimeException("Error during car editing. Try again.");
+            }
+        } else {
+            car.setId(carRequest.getId());
+            car.setLicensePlate(carRequest.getLicensePlate());
+            car.setManufacturer(carRequest.getManufacturer());
+            car.setModel(carRequest.getModel());
+            car.setType(carRequest.getType());
+            car.setYear(carRequest.getYear());
+            car.setSeats(carRequest.getSeats());
+            car.setCarFleet(carFleetService.getCarFleetByHeadquartersName(carRequest.getHeadquartersName()));
+
+            carRepository.save(car);
+        }
     }
 }

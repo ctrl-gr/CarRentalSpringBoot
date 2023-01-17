@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface BookingService {
 
-    void saveBooking(Booking booking);
+    void saveBooking(String licensePlate, String username, LocalDate startDate, LocalDate endDate);
 
-    void updateBooking(Booking booking);
+    void updateBooking(BookingRequest bookingRequest);
 
-    void deleteBooking(Booking booking);
+    void deleteBooking(BookingRequest booking);
 
     List<Booking> getBookingsByUser(User user);
 

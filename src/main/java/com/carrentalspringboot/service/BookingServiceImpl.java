@@ -23,12 +23,28 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void saveBooking(Booking booking) {
+    public void saveBooking(String licensePlate, String username, LocalDate startDate, LocalDate endDate) {
+
+        Booking booking = new Booking();
+        booking.setCar(carService.getCarByLicensePlate(licensePlate));
+        booking.setUser(userService.getUserByUsername(username));
+        booking.setStartDate(startDate);
+        booking.setEndDate(endDate);
+        booking.setIsApproved(false);
+
         bookingRepository.save(booking);
     }
 
     @Override
-    public void updateBooking(Booking booking) {
+    public void updateBooking(BookingRequest bookingRequest) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Booking booking = getBooking(
+                carService.getCarByLicensePlate(bookingRequest.getLicensePlate()),
+                userService.getUserByUsername(bookingRequest.getUsername()),
+                LocalDate.parse(bookingRequest.getStartDate(), formatter),
+                LocalDate.parse(bookingRequest.getEndDate(), formatter));
+        booking.setIsApproved(bookingRequest.isApproved());
+
         bookingRepository.save(booking);
     }
 

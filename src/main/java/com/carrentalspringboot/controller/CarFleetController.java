@@ -49,7 +49,7 @@ public class CarFleetController {
         int carFleetId = carFleetRequest.getId();
         CarFleet carFleet = carFleetMapper.fromResponseToEntity(carFleetRequest);
         carFleet.setId(carFleetId);
-        carFleetService.updateCarFleet(carFleet);
+        carFleetService.saveCarFleet(carFleet);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 

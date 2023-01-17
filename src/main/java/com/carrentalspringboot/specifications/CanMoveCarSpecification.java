@@ -22,18 +22,19 @@ public class CanMoveCarSpecification implements Specification<Car> {
 
         bookingSubquery
                 .select(bookingRoot.get("car").get("id"))
-                .where(isInBookedCars(bookingRoot, criteriaBuilder));
+                .where(isAvailableCar(bookingRoot, criteriaBuilder));
+
 
         return criteriaBuilder.not(criteriaBuilder.in(root.get("id")).value(bookingSubquery));
-
     }
 
-    private Predicate isInBookedCars(Root<Booking> bookingRoot, CriteriaBuilder criteriaBuilder) {
+    private Predicate isAvailableCar(Root<Booking> bookingRoot, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicateList = new ArrayList<>();
         LocalDate today = LocalDate.now();
 
         predicateList.add(criteriaBuilder.equal(bookingRoot.get("car"), carId));
-        predicateList.add(criteriaBuilder.greaterThanOrEqualTo(bookingRoot.get("end_date"), today));
+        predicateList.add(criteriaBuilder.greaterThan(bookingRoot.get("endDate"), today));
+
 
         return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
     }

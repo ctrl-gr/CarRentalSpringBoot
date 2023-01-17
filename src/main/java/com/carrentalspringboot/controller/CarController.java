@@ -3,7 +3,6 @@ package com.carrentalspringboot.controller;
 import com.carrentalspringboot.dto.CarRequest;
 import com.carrentalspringboot.dto.CarResponse;
 import com.carrentalspringboot.mapper.CarMapper;
-import com.carrentalspringboot.model.Car;
 import com.carrentalspringboot.service.CarService;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -40,8 +39,7 @@ public class CarController {
 
     @PostMapping(value = "/save", produces = "application/json")
     public ResponseEntity<?> saveCar(@RequestBody CarRequest carRequest) {
-        Car car = carMapper.fromResponseToEntity(carRequest);
-        carService.saveCar(car);
+        carService.saveCar(carRequest);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
@@ -54,13 +52,12 @@ public class CarController {
 
     @PutMapping(value = "/edit", produces = "application/json")
     public ResponseEntity<?> editCar(@RequestBody CarRequest carRequest) {
-
         try {
-           carService.moveCar(carRequest.getId());
-            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
+            carService.updateCar(carRequest);
         } catch (Exception e) {
-            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/get-car-by-id/{id}", produces = "application/json")

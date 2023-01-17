@@ -24,11 +24,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int id) {
-        return userRepository.findById(id).get();
-    }
-
-    @Override
     public User getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }
@@ -39,12 +34,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void storeImageInDb(String username, String path) {
+        User user = getUserByUsername(username);
+        user.setImage(path);
+        userRepository.save(user);
+    }
+
+    @Override
+    public String getImageUrlFromDb(String username) {
+        User user = getUserByUsername(username);
+        String path = user.getImage();
+        return path;
+    }
+
+    @Override
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 
-    @Override
-    public void updateUser(User user) {
-        userRepository.save(user);
-    }
 }

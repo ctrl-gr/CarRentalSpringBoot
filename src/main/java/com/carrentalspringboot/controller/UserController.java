@@ -35,11 +35,9 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "delete/{username}", produces = "application/json")
-    public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
-
-        User user = userService.getUserByUsername(username);
-        userService.deleteUser(user.getId());
+    @DeleteMapping(value = "delete/{id}", produces = "application/json")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
+        userService.deleteUser(id);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -55,7 +53,7 @@ public class UserController {
         int userId = userService.getUserByUsername(username).getId();
         User user = userMapper.fromResponseToEntity(userRequest);
         user.setId(userId);
-        userService.updateUser(user);
+        userService.saveUser(user);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -71,7 +69,7 @@ public class UserController {
         File normalFile = new File("C:\\Users\\Si2001\\Desktop\\upload\\" + fileName);
         try {
             file.transferTo(normalFile);
-           userMapper.storeImageInDb(username, normalFile.getAbsolutePath());
+           userService.storeImageInDb(username, normalFile.getAbsolutePath());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -80,7 +78,7 @@ public class UserController {
 
     @GetMapping(value = "/get-image/{username}")
     public ResponseEntity<byte[]> getImage(@PathVariable String username) throws IOException{
-        File img = new File(userMapper.getImageUrlFromDb(username));
+        File img = new File(userService.getImageUrlFromDb(username));
         return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
     }
 

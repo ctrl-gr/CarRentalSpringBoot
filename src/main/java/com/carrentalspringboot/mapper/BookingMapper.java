@@ -1,18 +1,12 @@
 package com.carrentalspringboot.mapper;
 
-import com.carrentalspringboot.dto.BookingRequest;
 import com.carrentalspringboot.dto.BookingResponse;
 import com.carrentalspringboot.model.Booking;
-import com.carrentalspringboot.service.BookingService;
-import com.carrentalspringboot.service.CarService;
-import com.carrentalspringboot.service.UserService;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,33 +53,6 @@ public class BookingMapper {
         }
 
         return myBookingsResponse;
-    }
-
-
-    public Booking fromResponseToEntityToApproveOrDelete(BookingRequest bookingRequest) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Booking booking = bookingService.getBooking(
-                carService.getCarByLicensePlate(bookingRequest.getLicensePlate()),
-                userService.getUserByUsername(bookingRequest.getUsername()),
-                LocalDate.parse(bookingRequest.getStartDate(), formatter),
-                LocalDate.parse(bookingRequest.getEndDate(), formatter)
-        );
-        booking.setIsApproved(!bookingRequest.isApproved());
-
-        return booking;
-    }
-
-    public Booking fromResponseToEntityToSave(String licensePlate, String username, LocalDate startDate, LocalDate endDate) {
-
-        Booking booking = new Booking();
-        booking.setCar(carService.getCarByLicensePlate(licensePlate));
-        booking.setUser(userService.getUserByUsername(username));
-        booking.setStartDate(startDate);
-        booking.setEndDate(endDate);
-        booking.setIsApproved(false);
-
-
-        return booking;
     }
 
 }

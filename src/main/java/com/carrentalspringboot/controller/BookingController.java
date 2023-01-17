@@ -3,7 +3,6 @@ package com.carrentalspringboot.controller;
 import com.carrentalspringboot.dto.BookingRequest;
 import com.carrentalspringboot.dto.BookingResponse;
 import com.carrentalspringboot.mapper.BookingMapper;
-import com.carrentalspringboot.model.Booking;
 import com.carrentalspringboot.service.BookingService;
 import com.carrentalspringboot.service.CarService;
 import com.carrentalspringboot.service.UserService;
@@ -47,15 +46,13 @@ public class BookingController {
 
     @PostMapping(value = "/save", produces = "application/json")
     public ResponseEntity<?> saveBooking(@RequestParam("licensePlate") String licensePlate, @RequestParam("username") String username, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("startDate") LocalDate startDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        Booking booking = bookingMapper.fromResponseToEntityToSave(licensePlate, username, startDate, endDate);
-        bookingService.saveBooking(booking);
+        bookingService.saveBooking(licensePlate, username, startDate, endDate);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/approve", produces = "application/json")
     public ResponseEntity<?> approveBooking(@RequestBody BookingRequest bookingRequest) {
-        Booking booking = bookingMapper.fromResponseToEntityToApproveOrDelete(bookingRequest);
-        bookingService.updateBooking(booking);
+        bookingService.updateBooking(bookingRequest);
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.CREATED);
     }
 

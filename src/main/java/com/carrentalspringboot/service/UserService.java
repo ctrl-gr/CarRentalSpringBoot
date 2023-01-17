@@ -8,13 +8,13 @@ public interface UserService {
 
     void saveUser(User user);
 
+    void storeImageInDb(String username, String path);
+
+    String getImageUrlFromDb(String username);
+
     void deleteUser(int id);
 
     List<User> getUsers();
-
-    void updateUser(User user);
-
-    User getUserById(int id);
 
     User getUserByUsername(String username);
 }
